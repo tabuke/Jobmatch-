@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>JobMatch | Find Your Next Opportunity</title>
+
+  <meta
+    name="description"
+    content="JobMatch helps job seekers discover relevant job opportunities, create professional CVs and prepare better applications."
+  />
+
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --navy-2: #102b50;
+      --green: #18a673;
+      --green-dark: #10855b;
+      --blue: #3478f6;
+      --white: #ffffff;
+      --bg: #f6f8fc;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e6eaf0;
+      --card: #ffffff;
+      --danger: #d92d20;
+      --shadow: 0 15px 45px rgba(11, 31, 58, 0.09);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--navy);
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-weight: 600;
+      color: #475467;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 19px;
+      border-radius: 11px;
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-dark {
+      background: var(--navy);
+      color: white;
+    }
+
+    .btn-light {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--navy);
+    }
+
+    .mobile-menu {
+      display: none;
+      border: none;
+      background: transparent;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(24, 166, 115, 0.18), transparent 30%),
+        linear-gradient(135deg, #0b1f3a 0%, #102b50 60%, #12345d 100%);
+      color: white;
+      padding: 85px 0 100px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 13px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: #5de0ae;
+    }
+
+    .hero-text {
+      color: #d9e3ef;
+      max-width: 650px;
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero .btn-light {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .hero-card {
+      background: white;
+      color: var(--text);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+    }
+
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .hero-card h3 {
+      font-size: 20px;
+    }
+
+    .live {
+      color: var(--green);
+      background: #e9fbf4;
+      padding: 6px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mini-job {
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 15px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 13px;
+      align-items: center;
+    }
+
+    .company-logo {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      background: #edf2f7;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--navy);
+    }
+
+    .mini-job h4 {
+      font-size: 15px;
+    }
+
+    .mini-job p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      margin-top: -38px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .search-box {
+      background: white;
+      box-shadow: var(--shadow);
+      border-radius: 18px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr auto;
+      gap: 12px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fafbfc;
+      padding: 15px 15px 15px 42px;
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: var(--green);
+      background: white;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 13px;
+      color: var(--muted);
+    }
+
+    .search-btn {
+      padding: 0 24px;
+    }
+
+    /* GENERAL */
+    section {
+      padding: 85px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 45px;
+    }
+
+    .section-head .eyebrow {
+      color: var(--green);
+      font-weight: 900;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .section-head h2 {
+      font-size: 38px;
+      line-height: 1.15;
+      margin: 8px 0 14px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    /* JOBS */
+    .jobs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .job-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      transition: 0.2s ease;
+    }
+
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .job-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .job-company {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .job-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: #eef5ff;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .job-company small {
+      color: var(--muted);
+    }
+
+    .save {
+      border: none;
+      background: #f2f4f7;
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .job-card h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 14px 0;
+    }
+
+    .tag {
+      background: #f2f4f7;
+      padding: 6px 9px;
+      border-radius: 7px;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .salary {
+      color: var(--green-dark);
+      font-weight: 900;
+      margin-bottom: 17px;
+    }
+
+    .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+    }
+
+    .job-footer small {
+      color: var(--muted);
+    }
+
+    /* SERVICES */
+    .services {
+      background: white;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .service-card {
+      border: 1px solid var(--border);
+      padding: 25px;
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #eafaf4;
+      font-size: 24px;
+      margin-bottom: 17px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* HOW */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .step {
+      position: relative;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: white;
+      border-radius: 12px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .step p {
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    /* CTA */
+    .cta {
+      padding-top: 0;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--navy), #153d6d);
+      border-radius: 25px;
+      padding: 55px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .cta-box h2 {
+      font-size: 34px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .cta-box p {
+      color: #d7e2ef;
+      max-width: 650px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #071629;
+      color: white;
+      padding: 60px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand p {
+      color: #aebccc;
+      margin-top: 15px;
+      max-width: 360px;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 15px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #aebccc;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .footer-col a:hover {
+      color: white;
+    }
+
+    .contact-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .contact-box a {
+      color: white;
+      font-weight: 800;
+      margin: 5px 0;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 45px;
+      padding-top: 20px;
+      color: #94a3b8;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 10, 20, 0.65);
+      display: none;
+      place-items: center;
+      z-index: 3000;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: grid;
+    }
+
+    .modal-content {
+      width: min(600px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 18px;
+      top: 15px;
+      border: none;
+      background: #f2f4f7;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 8px;
+    }
+
+    .modal-content p {
+      color: var(--muted);
+    }
+
+    .modal-form {
+      margin-top: 22px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .modal-form input,
+    .modal-form textarea,
+    .modal-form select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .modal-form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* MOBILE */
+    @media (max-width: 950px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        max-width: 600px;
+      }
+
+      .search-box {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .jobs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .nav-inner.mobile-open {
+        flex-wrap: wrap;
+        padding: 15px 0;
+      }
+
+      .nav-inner.mobile-open .nav-links,
+      .nav-inner.mobile-open .nav-actions {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero {
+        padding: 60px 0 80px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .search-box {
+        grid-template-columns: 1fr;
+      }
+
+      .search-btn {
+        padding: 14px;
+      }
+
+      .jobs,
+      .service-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .section-head h2 {
+        font-size: 31px;
+      }
+
+      .cta-box {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copyright {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner" id="navInner">
+
+      <a href="#" class="logo">
+        <div class="logo-icon">J</div>
+        Job<span>Match</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#jobs">Find Jobs</a>
+        <a href="#services">Services</a>
+        <a href="#how">How It Works</a>
+        <a href="#employers">Employers</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-light" href="#services">Career Services</a>
+        <a class="btn btn-primary" href="#jobs">Find Jobs</a>
+      </div>
+
+      <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div>
+        <div class="badge">
+          ✦ Smart Job Search & Career Support
+        </div>
+
+        <h1>
+          Find the right job.<br />
+          <span>Build your future.</span>
+        </h1>
+
+        <p class="hero-text">
+          JobMatch helps job seekers discover relevant opportunities,
+          prepare professional applications and connect with legitimate
+          job opportunities.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#jobs" class="btn btn-primary">
+            🔎 Explore Jobs
+          </a>
+
+          <a href="#services" class="btn btn-light">
+            📄 Improve My CV
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+
+        <div class="hero-card-top">
+          <h3>Latest Opportunities</h3>
+          <span class="live">● LIVE</span>
+        </div>
+
+        <div class="mini-job">
+          <div class="company-logo">T</div>
+          <div>
+            <h4>Software Developer</h4>
+            <p>Technology • Remote</p>
+          </div>
+        </div>
+
+        <div class="mini-job">
+          <div class="company-logo">F</div>
+          <div>
+            <h4>Account Officer</h4>
+            <p>Finance • Full Time</p>
+          </div>
+        </div>
+
+        <div class="mini-job">
+          <div class="company-logo">E</div>
+          <div>
+            <h4>Marketing Executive</h4>
+            <p>Business • Hybrid</p>
+          </div>
+        </div>
+
+        <a href="#jobs" class="btn btn-dark" style="width:100%; margin-top:8px;">
+          View Opportunities →
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SEARCH -->
+  <div class="container search-wrap">
+
+    <form class="search-box" onsubmit="searchJobs(event)">
+
+      <div class="input-group">
+        <span class="input-icon">🔎</span>
+        <input
+          type="text"
+          id="keyword"
+          placeholder="Job title, skill or keyword"
+        />
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">📍</span>
+        <select id="location">
+          <option value="">Any location</option>
+          <option>Lagos</option>
+          <option>Abuja</option>
+          <option>Kano</option>
+          <option>Kaduna</option>
+          <option>Port Harcourt</option>
+          <option>Remote</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">💼</span>
+        <select id="category">
+          <option value="">All categories</option>
+          <option>Technology</option>
+          <option>Finance</option>
+          <option>Education</option>
+          <option>Marketing</option>
+          <option>Engineering</option>
+          <option>Administration</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary search-btn" type="submit">
+        Search Jobs
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- JOBS -->
+  <section id="jobs">
+    <div class="container">
+
+      <div class="section-head">
+        <div class="eyebrow">Opportunities</div>
+        <h2>Explore Featured Jobs</h2>
+        <p>
+          Discover opportunities that match your skills, experience and
+          career interests.
+        </p>
+      </div>
+
+      <div class="jobs" id="jobList">
+
+        <article class="job-card" data-keywords="software developer technology remote">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">T</div>
+              <div>
+                <strong>Tech Company</strong>
+                <small>Technology</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Software Developer</h3>
+
+          <div class="job-meta">
+            <span class="tag">Remote</span>
+            <span class="tag">Full Time</span>
+            <span class="tag">Tech</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>Posted recently</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Software Developer','Tech Company','Remote','Technology')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+
+        <article class="job-card" data-keywords="account officer finance lagos">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">F</div>
+              <div>
+                <strong>Finance Group</strong>
+                <small>Finance</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Account Officer</h3>
+
+          <div class="job-meta">
+            <span class="tag">Lagos</span>
+            <span class="tag">Full Time</span>
+            <span class="tag">Finance</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>Open opportunity</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Account Officer','Finance Group','Lagos','Finance')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+
+        <article class="job-card" data-keywords="teacher education kano">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">E</div>
+              <div>
+                <strong>Education Centre</strong>
+                <small>Education</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Secondary School Teacher</h3>
+
+          <div class="job-meta">
+            <span class="tag">Kano</span>
+            <span class="tag">Full Time</span>
+            <span class="tag">Education</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>Application open</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Secondary School Teacher','Education Centre','Kano','Education')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+
+        <article class="job-card" data-keywords="marketing executive abuja marketing">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">M</div>
+              <div>
+                <strong>Marketing Agency</strong>
+                <small>Marketing</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Marketing Executive</h3>
+
+          <div class="job-meta">
+            <span class="tag">Abuja</span>
+            <span class="tag">Hybrid</span>
+            <span class="tag">Marketing</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>New vacancy</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Marketing Executive','Marketing Agency','Abuja','Marketing')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+
+        <article class="job-card" data-keywords="civil engineer engineering kaduna">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">C</div>
+              <div>
+                <strong>Construction Firm</strong>
+                <small>Engineering</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Civil Engineer</h3>
+
+          <div class="job-meta">
+            <span class="tag">Kaduna</span>
+            <span class="tag">Full Time</span>
+            <span class="tag">Engineering</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>Hiring</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Civil Engineer','Construction Firm','Kaduna','Engineering')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+
+        <article class="job-card" data-keywords="administrator administration port harcourt">
+
+          <div class="job-top">
+            <div class="job-company">
+              <div class="job-logo">A</div>
+              <div>
+                <strong>Business Services</strong>
+                <small>Administration</small>
+              </div>
+            </div>
+
+            <button class="save" onclick="saveJob(this)">♡</button>
+          </div>
+
+          <h3>Administrative Assistant</h3>
+
+          <div class="job-meta">
+            <span class="tag">Port Harcourt</span>
+            <span class="tag">Full Time</span>
+            <span class="tag">Admin</span>
+          </div>
+
+          <div class="salary">
+            Salary: Negotiable
+          </div>
+
+          <div class="job-footer">
+            <small>Apply soon</small>
+            <button
+              class="btn btn-primary"
+              onclick="openJob('Administrative Assistant','Business Services','Port Harcourt','Administration')">
+              View Job
+            </button>
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+
+    <div class="container">
+
+      <div class="section-head">
+        <div class="eyebrow">Career Services</div>
+        <h2>More Than Just Job Listings</h2>
+        <p>
+          We help you prepare professionally before you apply.
+        </p>
+      </div>
+
+      <div class="service-grid">
+
+        <div class="service-card">
+          <div class="service-icon">📄</div>
+          <h3>Professional CV</h3>
+          <p>
+            Get a clean, professional CV designed around your skills,
+            education and experience.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">✉️</div>
+          <h3>Cover Letter</h3>
+          <p>
+            Prepare a professional cover letter tailored to the opportunity
+            you want to apply for.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🎯</div>
+          <h3>Job Matching</h3>
+          <p>
+            Discover opportunities based on your skills, career field and
+            preferred location.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🚀</div>
+          <h3>Application Support</h3>
+          <p>
+            Understand application requirements and prepare the information
+            you need before applying.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+
+    <div class="container">
+
+      <div class="section-head">
+        <div class="eyebrow">Simple Process</div>
+        <h2>How JobMatch Works</h2>
+        <p>
+          Find opportunities and prepare your application in a few simple
+          steps.
+        </p>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-number">01</div>
+          <h3>Create Your Profile</h3>
+          <p>
+            Tell us about your skills, education, experience and the type of
+            work you are looking for.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">02</div>
+          <h3>Find Matching Jobs</h3>
+          <p>
+            Explore relevant vacancies and review company and application
+            information.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">03</div>
+          <h3>Prepare & Apply</h3>
+          <p>
+            Improve your CV and application, then apply through the
+            appropriate official application channel.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- EMPLOYERS -->
+  <section id="employers">
+
+    <div class="container">
+
+      <div class="cta-box">
+
+        <div>
+          <h2>Are you an employer?</h2>
+          <p>
+            Connect your vacancies with people actively looking for new
+            opportunities. Contact JobMatch to discuss recruitment support
+            and vacancy promotion.
+          </p>
+        </div>
+
+        <a
+          class="btn btn-primary"
+          href="https://wa.me/2347048718481?text=Hello%20JobMatch%2C%20I%20am%20an%20employer%20and%20I%20want%20to%20discuss%20posting%20a%20job."
+          target="_blank"
+        >
+          💬 Contact Us
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+
+    <div class="container">
+
+      <div class="section-head">
+        <div class="eyebrow">Get In Touch</div>
+        <h2>Need Career Support?</h2>
+        <p>
+          Contact us for CV preparation, job matching and application
+          assistance.
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+
+        <a
+          class="btn btn-primary"
+          href="https://wa.me/2347048718481?text=Hello%20JobMatch%2C%20I%20need%20career%20support."
+          target="_blank"
+        >
+          💬 WhatsApp: 0704 871 8481
+        </a>
+
+        <a
+          class="btn btn-dark"
+          href="tel:+2347048718481"
+        >
+          📞 Call: 0704 871 8481
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo" style="color:white;">
+            <div class="logo-icon" style="background:var(--green);">
+              J
+            </div>
+            Job<span>Match</span>
+          </a>
+
+          <p>
+            Helping job seekers discover opportunities and prepare stronger
+            applications.
+          </p>
+
+          <div class="contact-box">
+
+            <a
+              href="https://wa.me/2347048718481"
+              target="_blank"
+            >
+              💬 WhatsApp
+            </a>
+
+            <a href="tel:+2347048718481">
+              📞 0704 871 8481
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="footer-col">
+          <h4>Job Seekers</h4>
+          <a href="#jobs">Find Jobs</a>
+          <a href="#services">CV Services</a>
+          <a href="#services">Cover Letters</a>
+          <a href="#how">How It Works</a>
+        </div>
+
+
+        <div class="footer-col">
+          <h4>Employers</h4>
+          <a href="#employers">Post a Vacancy</a>
+          <a href="#contact">Recruitment Support</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+
+
+        <div class="footer-col">
+          <h4>Information</h4>
+          <a href="#" onclick="showInfo('Privacy Policy')">
+            Privacy Policy
+          </a>
+          <a href="#" onclick="showInfo('Terms of Service')">
+            Terms of Service
+          </a>
+          <a href="#" onclick="showInfo('Disclaimer')">
+            Disclaimer
+          </a>
+        </div>
+
+      </div>
+
+
+      <div class="copyright">
+        <span>
+          © <span id="year"></span> JobMatch. All rights reserved.
+        </span>
+
+        <span>
+          JobMatch does not guarantee employment.
+        </span>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- JOB MODAL -->
+  <div class="modal" id="jobModal">
+
+    <div class="modal-content">
+
+      <button class="close" onclick="closeModal('jobModal')">
+        ×
+      </button>
+
+      <h2 id="modalJobTitle">Job Title</h2>
+
+      <p id="modalCompany">Company</p>
+
+      <div class="job-meta" style="margin-top:20px;">
+        <span class="tag" id="modalLocation">Location</span>
+        <span class="tag" id="modalCategory">Category</span>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;">
+
+      <h3>Before You Apply</h3>
+
+      <p style="margin-top:8px;">
+        Review the company's requirements carefully and use the official
+        application channel provided by the employer or verified source.
+      </p>
+
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+
+        <a
+          href="https://wa.me/2347048718481?text=Hello%20JobMatch%2C%20I%20want%20help%20with%20a%20job%20application."
+          target="_blank"
+          class="btn btn-primary"
+        >
+          💬 Get Application Support
+        </a>
+
+        <button
+          class="btn btn-light"
+          onclick="closeModal('jobModal')"
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- INFO MODAL -->
+  <div class="modal" id="infoModal">
+
+    <div class="modal-content">
+
+      <button class="close" onclick="closeModal('infoModal')">
+        ×
+      </button>
+
+      <h2 id="infoTitle">Information</h2>
+
+      <p id="infoText" style="margin-top:15px;"></p>
+
+      <button
+        class="btn btn-dark"
+        style="margin-top:25px;"
+        onclick="closeModal('infoModal')"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* YEAR */
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /* MOBILE MENU */
+    function toggleMenu() {
+      document
+        .getElementById("navInner")
+        .classList.toggle("mobile-open");
+    }
+
+
+    /* SEARCH */
+    function searchJobs(event) {
+
+      event.preventDefault();
+
+      const keyword =
+        document
+          .getElementById("keyword")
+          .value
+          .toLowerCase()
+          .trim();
+
+      const location =
+        document
+          .getElementById("location")
+          .value
+          .toLowerCase();
+
+      const category =
+        document
+          .getElementById("category")
+          .value
+          .toLowerCase();
+
+      const cards =
+        document.querySelectorAll(".job-card");
+
+      let found = 0;
+
+      cards.forEach(card => {
+
+        const data =
+          card.dataset.keywords.toLowerCase();
+
+        const keywordMatch =
+          !keyword || data.includes(keyword);
+
+        const locationMatch =
+          !location || data.includes(location);
+
+        const categoryMatch =
+          !category || data.includes(category);
+
+        if (
+          keywordMatch &&
+          locationMatch &&
+          categoryMatch
+        ) {
+          card.style.display = "block";
+          found++;
+        } else {
+          card.style.display = "none";
+        }
+
+      });
+
+      document
+        .getElementById("jobs")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+      if (found === 0) {
+        alert(
+          "No matching jobs found in the current listings. Try another keyword or category."
+        );
+      }
+
+    }
+
+
+    /* OPEN JOB */
+    function openJob(title, company, location, category) {
+
+      document.getElementById("modalJobTitle").textContent =
+        title;
+
+      document.getElementById("modalCompany").textContent =
+        company;
+
+      document.getElementById("modalLocation").textContent =
+        location;
+
+      document.getElementById("modalCategory").textContent =
+        category;
+
+      document
+        .getElementById("jobModal")
+        .classList.add("active");
+
+    }
+
+
+    /* CLOSE MODAL */
+    function closeModal(id) {
+
+      document
+        .getElementById(id)
+        .classList.remove("active");
+
+    }
+
+
+    /* SAVE JOB */
+    function saveJob(button) {
+
+      if (button.textContent.trim() === "♡") {
+
+        button.textContent = "♥";
+
+        button.style.color = "#18a673";
+
+      } else {
+
+        button.textContent = "♡";
+
+        button.style.color = "";
+
+      }
+
+    }
+
+
+    /* INFO */
+    function showInfo(type) {
+
+      event.preventDefault();
+
+      const title =
+        document.getElementById("infoTitle");
+
+      const text =
+        document.getElementById("infoText");
+
+      title.textContent = type;
+
+      if (type === "Privacy Policy") {
+
+        text.textContent =
+          "JobMatch is designed to respect user privacy. In the production version, this section will contain the complete privacy policy covering account information, CV data, communication and application-related information.";
+
+      }
+
+      if (type === "Terms of Service") {
+
+        text.textContent =
+          "By using JobMatch, users agree to provide accurate information and use the platform responsibly. JobMatch provides job-search and career-support services and does not guarantee employment.";
+
+      }
+
+      if (type === "Disclaimer") {
+
+        text.textContent =
+          "JobMatch does not guarantee that a user will receive a job, interview or employment offer. Job seekers should verify vacancies and submit applications through appropriate official channels. Any service fees are for career-support services and not payment for guaranteed employment.";
+
+      }
+
+      document
+        .getElementById("infoModal")
+        .classList.add("active");
+
+    }
+
+
+    /* CLOSE WHEN CLICKING OUTSIDE */
+    document
+      .querySelectorAll(".modal")
+      .forEach(modal => {
+
+        modal.addEventListener("click", function(event) {
+
+          if (event.target === modal) {
+            modal.classList.remove("active");
+          }
+
+        });
+
+      });
+
+  </script>
+
+</body>
+</html>
