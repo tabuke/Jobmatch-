@@ -1,1492 +1,1427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JobMatch — Find Jobs That Match You</title>
-  <meta
-    name="description"
-    content="JobMatch helps job seekers discover jobs, search opportunities and connect with employers."
-  />
-  <style>
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #0f172a;
-      --text: #172033;
-      --muted: #64748b;
-      --light: #f8fafc;
-      --white: #ffffff;
-      --border: #e2e8f0;
-      --green: #16a34a;
-      --orange: #f59e0b;
-      --red: #ef4444;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
-      --radius: 18px;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--white);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-    button {
-      cursor: pointer;
-    }
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-    /* ================= NAVBAR ================= */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255,255,255,.95);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid var(--border);
-    }
-    nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 25px;
-    }
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      color: var(--secondary);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-    .logo span {
-      color: var(--primary);
-    }
-    .logo-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      background: var(--primary);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: bold;
-    }
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-    }
-    .nav-links a {
-      font-size: 15px;
-      font-weight: 600;
-      color: #475569;
-    }
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-    .nav-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-weight: 700;
-      transition: .2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-    .btn-outline {
-      background: white;
-      color: var(--secondary);
-      border: 1px solid var(--border);
-    }
-    .btn-outline:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .menu-btn {
-      display: none;
-      border: none;
-      background: transparent;
-      font-size: 26px;
-    }
-    /* ================= HERO ================= */
-    .hero {
-      background:
-        radial-gradient(circle at 80% 20%, rgba(37,99,235,.13), transparent 30%),
-        linear-gradient(135deg, #f8fbff, #ffffff);
-      padding: 75px 0 65px;
-      overflow: hidden;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 55px;
-      align-items: center;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 13px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(42px, 6vw, 68px);
-      line-height: 1.04;
-      letter-spacing: -2px;
-      color: var(--secondary);
-      margin-bottom: 22px;
-    }
-    .hero h1 span {
-      color: var(--primary);
-    }
-    .hero-text {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 600px;
-      margin-bottom: 30px;
-    }
-    .search-box {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 8px;
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 8px;
-      box-shadow: var(--shadow);
-      max-width: 720px;
-    }
-    .search-field {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 13px;
-      border-right: 1px solid var(--border);
-    }
-    .search-field:last-of-type {
-      border-right: none;
-    }
-    .search-field span {
-      font-size: 19px;
-    }
-    .search-field input {
-      width: 100%;
-      border: none;
-      outline: none;
-      padding: 13px 4px;
-      color: var(--text);
-    }
-    .search-field input::placeholder {
-      color: #94a3b8;
-    }
-    .search-btn {
-      border: none;
-      background: var(--primary);
-      color: white;
-      border-radius: 10px;
-      padding: 0 22px;
-      font-weight: 700;
-    }
-    .search-btn:hover {
-      background: var(--primary-dark);
-    }
-    .popular {
-      margin-top: 15px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .popular strong {
-      color: var(--text);
-    }
-    .hero-visual {
-      position: relative;
-    }
-    .hero-image-card {
-      background: white;
-      border-radius: 28px;
-      padding: 10px;
-      box-shadow: 0 30px 80px rgba(15,23,42,.15);
-      transform: rotate(1deg);
-    }
-    .hero-image-card img {
-      width: 100%;
-      height: 475px;
-      object-fit: cover;
-      border-radius: 20px;
-      display: block;
-    }
-    .floating-card {
-      position: absolute;
-      background: white;
-      padding: 15px 18px;
-      border-radius: 14px;
-      box-shadow: 0 15px 40px rgba(15,23,42,.16);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .floating-card.jobs {
-      left: -35px;
-      bottom: 45px;
-    }
-    .floating-card.match {
-      right: -25px;
-      top: 45px;
-    }
-    .float-icon {
-      width: 43px;
-      height: 43px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: #eff6ff;
-      font-size: 20px;
-    }
-    .floating-card strong {
-      display: block;
-      font-size: 16px;
-    }
-    .floating-card small {
-      color: var(--muted);
-    }
-    /* ================= STATS ================= */
-    .stats {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .stat {
-      text-align: center;
-    }
-    .stat h3 {
-      font-size: 30px;
-      color: var(--secondary);
-    }
-    .stat p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-    /* ================= SECTIONS ================= */
-    section {
-      padding: 85px 0;
-    }
-    .section-heading {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 45px;
-    }
-    .section-heading .mini {
-      color: var(--primary);
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-    .section-heading h2 {
-      font-size: clamp(30px, 4vw, 44px);
-      color: var(--secondary);
-      margin-bottom: 12px;
-    }
-    .section-heading p {
-      color: var(--muted);
-    }
-    /* ================= CATEGORIES ================= */
-    .categories {
-      background: var(--light);
-    }
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-    .category {
-      background: white;
-      padding: 25px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      transition: .2s;
-    }
-    .category:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
-      border-color: #bfdbfe;
-    }
-    .category-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 13px;
-      background: #eff6ff;
-      display: grid;
-      place-items: center;
-      font-size: 23px;
-      margin-bottom: 15px;
-    }
-    .category h3 {
-      font-size: 17px;
-      margin-bottom: 5px;
-    }
-    .category p {
-      color: var(--muted);
-      font-size: 13px;
-    }
-    /* ================= JOBS ================= */
-    .job-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .job-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 23px;
-      background: white;
-      transition: .2s;
-    }
-    .job-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
-    }
-    .job-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    .company-logo {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: #f1f5f9;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: var(--primary);
-    }
-    .save {
-      border: none;
-      background: #f8fafc;
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      font-size: 18px;
-    }
-    .job-card h3 {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .company {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 5px 0 15px;
-    }
-    .job-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-    .tag {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      padding: 6px 9px;
-      border-radius: 7px;
-      font-size: 12px;
-      color: #475569;
-    }
-    .job-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--border);
-      padding-top: 15px;
-    }
-    .salary {
-      font-weight: 800;
-      color: var(--green);
-      font-size: 14px;
-    }
-    .apply {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 14px;
-    }
-    /* ================= HOW IT WORKS ================= */
-    .steps {
-      background: var(--light);
-    }
-    .step-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
-    .step {
-      background: white;
-      padding: 30px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      text-align: center;
-    }
-    .step-number {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: white;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 18px;
-      font-weight: 800;
-      font-size: 20px;
-    }
-    .step h3 {
-      margin-bottom: 8px;
-    }
-    .step p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-    /* ================= CTA ================= */
-    .cta {
-      padding: 80px 0;
-    }
-    .cta-box {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white;
-      border-radius: 28px;
-      padding: 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-box h2 {
-      font-size: clamp(30px, 4vw, 46px);
-      margin-bottom: 12px;
-    }
-    .cta-box p {
-      color: #cbd5e1;
-      max-width: 600px;
-      margin: 0 auto 25px;
-    }
-    .cta-box .btn {
-      background: white;
-      color: var(--primary);
-    }
-    /* ================= FOOTER ================= */
-    footer {
-      background: #020617;
-      color: white;
-      padding: 60px 0 25px;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 40px;
-      padding-bottom: 40px;
-    }
-    .footer-brand p {
-      color: #94a3b8;
-      margin-top: 15px;
-      max-width: 340px;
-      font-size: 14px;
-    }
-    footer h4 {
-      margin-bottom: 15px;
-    }
-    footer ul {
-      list-style: none;
-    }
-    footer li {
-      margin: 10px 0;
-    }
-    footer li a {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-    footer li a:hover {
-      color: white;
-    }
-    .copyright {
-      border-top: 1px solid #1e293b;
-      padding-top: 20px;
-      color: #64748b;
-      font-size: 13px;
-      text-align: center;
-    }
-    /* ================= SEARCH RESULTS ================= */
-    #searchResults {
-      display: none;
-      background: #f8fafc;
-      padding: 35px 0;
-    }
-    .results-title {
-      margin-bottom: 20px;
-    }
-    .no-results {
-      text-align: center;
-      padding: 40px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--muted);
-    }
-    /* ================= MODAL ================= */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(2,6,23,.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 2000;
-    }
-    .modal.active {
-      display: flex;
-    }
-    .modal-box {
-      background: white;
-      width: min(500px, 100%);
-      border-radius: 20px;
-      padding: 30px;
-      position: relative;
-    }
-    .close {
-      position: absolute;
-      right: 18px;
-      top: 15px;
-      border: none;
-      background: transparent;
-      font-size: 25px;
-    }
-    .modal-box h2 {
-      margin-bottom: 10px;
-    }
-    .modal-box p {
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      outline: none;
-    }
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: var(--primary);
-    }
-    /* ================= MOBILE ================= */
-    @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero-content {
-        text-align: center;
-      }
-      .hero-text {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .search-box {
-        text-align: left;
-      }
-      .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .job-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .step-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 650px) {
-      nav {
-        min-height: 65px;
-      }
-      .nav-links,
-      .nav-actions {
-        display: none;
-      }
-      .menu-btn {
-        display: block;
-      }
-      .mobile-menu {
-        display: none;
-        padding: 15px 0 20px;
-      }
-      .mobile-menu.active {
-        display: block;
-      }
-      .mobile-menu a {
-        display: block;
-        padding: 12px 0;
-        font-weight: 600;
-      }
-      .hero {
-        padding: 55px 0;
-      }
-      .hero h1 {
-        font-size: 42px;
-      }
-      .search-box {
-        grid-template-columns: 1fr;
-      }
-      .search-field {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-      .search-field:last-of-type {
-        border-bottom: none;
-      }
-      .search-btn {
-        min-height: 48px;
-      }
-      .hero-image-card img {
-        height: 350px;
-      }
-      .floating-card.jobs {
-        left: 5px;
-        bottom: 25px;
-      }
-      .floating-card.match {
-        right: 5px;
-        top: 25px;
-      }
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .category-grid,
-      .job-grid {
-        grid-template-columns: 1fr;
-      }
-      section {
-        padding: 65px 0;
-      }
-      .cta-box {
-        padding: 40px 20px;
-      }
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JobMatch — Find Your Next Opportunity</title>
+<meta name="description"
+content="JobMatch helps people discover jobs, contact employers and find career opportunities.">
+<meta property="og:title" content="JobMatch — Find Your Next Opportunity">
+<meta property="og:description" content="Discover jobs and connect directly with employers.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85">
+<meta property="og:type" content="website">
+<style>
+:root{
+ --blue:#2563eb;
+ --blue2:#1d4ed8;
+ --dark:#0f172a;
+ --text:#172033;
+ --muted:#64748b;
+ --light:#f8fafc;
+ --white:#fff;
+ --border:#e2e8f0;
+ --green:#16a34a;
+ --radius:18px;
+ --shadow:0 20px 50px rgba(15,23,42,.10)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ color:var(--text);
+ background:white;
+ line-height:1.6
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.container{
+ width:min(1180px,92%);
+ margin:auto
+}
+/* NAV */
+header{
+ position:sticky;
+ top:0;
+ z-index:1000;
+ background:rgba(255,255,255,.96);
+ backdrop-filter:blur(15px);
+ border-bottom:1px solid var(--border)
+}
+nav{
+ min-height:76px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px
+}
+.logo{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ font-size:25px;
+ font-weight:800;
+ color:var(--dark)
+}
+.logo span{color:var(--blue)}
+.logoIcon{
+ width:39px;
+ height:39px;
+ display:grid;
+ place-items:center;
+ background:var(--blue);
+ color:white;
+ border-radius:11px
+}
+.navLinks{
+ display:flex;
+ gap:28px;
+ align-items:center
+}
+.navLinks a{
+ color:#475569;
+ font-weight:600;
+ font-size:15px
+}
+.navLinks a:hover{color:var(--blue)}
+.navActions{
+ display:flex;
+ gap:10px
+}
+.btn{
+ border:0;
+ border-radius:10px;
+ padding:12px 20px;
+ font-weight:700;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:8px;
+ transition:.2s
+}
+.primary{
+ background:var(--blue);
+ color:white
+}
+.primary:hover{
+ background:var(--blue2);
+ transform:translateY(-1px)
+}
+.outline{
+ background:white;
+ color:var(--dark);
+ border:1px solid var(--border)
+}
+.outline:hover{
+ border-color:var(--blue);
+ color:var(--blue)
+}
+.menuBtn{
+ display:none;
+ border:0;
+ background:none;
+ font-size:27px
+}
+.mobileMenu{
+ display:none;
+ padding:15px 0 20px
+}
+.mobileMenu a{
+ display:block;
+ padding:10px 0;
+ font-weight:600
+}
+/* HERO */
+.hero{
+ padding:75px 0 65px;
+ background:
+ radial-gradient(circle at 80% 20%,rgba(37,99,235,.13),transparent 30%),
+ linear-gradient(135deg,#f8fbff,#fff)
+}
+.heroGrid{
+ display:grid;
+ grid-template-columns:1.05fr .95fr;
+ gap:55px;
+ align-items:center
+}
+.badge{
+ display:inline-flex;
+ padding:8px 14px;
+ border-radius:50px;
+ background:#eff6ff;
+ color:var(--blue);
+ font-weight:700;
+ font-size:13px;
+ margin-bottom:20px
+}
+.hero h1{
+ font-size:clamp(42px,6vw,68px);
+ line-height:1.04;
+ letter-spacing:-2px;
+ color:var(--dark);
+ margin-bottom:22px
+}
+.hero h1 span{color:var(--blue)}
+.heroText{
+ font-size:18px;
+ color:var(--muted);
+ max-width:600px;
+ margin-bottom:30px
+}
+/* SEARCH */
+.searchBox{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:15px;
+ padding:8px;
+ display:grid;
+ grid-template-columns:1fr 1fr auto;
+ gap:8px;
+ box-shadow:var(--shadow)
+}
+.searchField{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:0 13px;
+ border-right:1px solid var(--border)
+}
+.searchField input{
+ width:100%;
+ border:0;
+ outline:0;
+ padding:13px 4px
+}
+.searchBtn{
+ border:0;
+ background:var(--blue);
+ color:white;
+ border-radius:10px;
+ padding:0 22px;
+ font-weight:700
+}
+.popular{
+ margin-top:14px;
+ color:var(--muted);
+ font-size:13px
+}
+/* HERO IMAGE */
+.heroVisual{position:relative}
+.heroImage{
+ background:white;
+ padding:10px;
+ border-radius:28px;
+ box-shadow:0 30px 80px rgba(15,23,42,.15)
+}
+.heroImage img{
+ width:100%;
+ height:475px;
+ object-fit:cover;
+ border-radius:20px;
+ display:block
+}
+.floatCard{
+ position:absolute;
+ background:white;
+ padding:15px 18px;
+ border-radius:14px;
+ box-shadow:0 15px 40px rgba(15,23,42,.16);
+ display:flex;
+ align-items:center;
+ gap:12px
+}
+.floatCard.jobs{
+ left:-35px;
+ bottom:40px
+}
+.floatCard.match{
+ right:-25px;
+ top:40px
+}
+.floatIcon{
+ width:43px;
+ height:43px;
+ border-radius:12px;
+ display:grid;
+ place-items:center;
+ background:#eff6ff
+}
+.floatCard strong{display:block}
+.floatCard small{color:var(--muted)}
+/* STATS */
+.stats{
+ padding:28px 0;
+ border-bottom:1px solid var(--border)
+}
+.statsGrid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:20px
+}
+.stat{
+ text-align:center;
+ cursor:pointer
+}
+.stat h3{
+ font-size:30px;
+ color:var(--dark)
+}
+.stat p{
+ color:var(--muted);
+ font-size:14px
+}
+.stat:hover h3{color:var(--blue)}
+/* SECTIONS */
+section{padding:85px 0}
+.heading{
+ text-align:center;
+ max-width:680px;
+ margin:0 auto 45px
+}
+.mini{
+ color:var(--blue);
+ font-weight:800;
+ text-transform:uppercase;
+ font-size:13px;
+ letter-spacing:1px
+}
+.heading h2{
+ font-size:clamp(30px,4vw,44px);
+ color:var(--dark);
+ margin:8px 0 12px
+}
+.heading p{color:var(--muted)}
+/* CATEGORIES */
+.categories{background:var(--light)}
+.categoryGrid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:18px
+}
+.category{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:var(--radius);
+ padding:25px;
+ transition:.2s;
+ cursor:pointer
+}
+.category:hover{
+ transform:translateY(-5px);
+ box-shadow:var(--shadow);
+ border-color:#bfdbfe
+}
+.categoryIcon{
+ width:50px;
+ height:50px;
+ border-radius:13px;
+ background:#eff6ff;
+ display:grid;
+ place-items:center;
+ font-size:23px;
+ margin-bottom:15px
+}
+.category h3{font-size:17px}
+.category p{
+ color:var(--muted);
+ font-size:13px
+}
+/* JOBS */
+.jobGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:20px
+}
+.jobCard{
+ border:1px solid var(--border);
+ border-radius:var(--radius);
+ padding:23px;
+ background:white;
+ transition:.2s
+}
+.jobCard:hover{
+ transform:translateY(-5px);
+ box-shadow:var(--shadow)
+}
+.jobTop{
+ display:flex;
+ justify-content:space-between;
+ align-items:start
+}
+.companyLogo{
+ width:50px;
+ height:50px;
+ border-radius:12px;
+ background:#eff6ff;
+ display:grid;
+ place-items:center;
+ font-weight:800;
+ color:var(--blue)
+}
+.saveBtn{
+ width:38px;
+ height:38px;
+ border:0;
+ border-radius:10px;
+ background:#f8fafc;
+ font-size:18px
+}
+.jobCard h3{
+ margin-top:18px;
+ font-size:18px
+}
+.company{
+ color:var(--muted);
+ font-size:14px;
+ margin:4px 0 13px
+}
+.tags{
+ display:flex;
+ flex-wrap:wrap;
+ gap:7px;
+ margin-bottom:17px
+}
+.tag{
+ background:#f8fafc;
+ border:1px solid var(--border);
+ padding:6px 9px;
+ border-radius:7px;
+ font-size:12px;
+ color:#475569
+}
+.jobActions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ border-top:1px solid var(--border);
+ padding-top:15px
+}
+.jobActions button{
+ border:0;
+ border-radius:9px;
+ padding:10px 8px;
+ font-weight:700;
+ font-size:13px
+}
+.applyBtn{
+ background:var(--blue);
+ color:white
+}
+.whatsappBtn{
+ background:#dcfce7;
+ color:#15803d
+}
+.callBtn{
+ background:#eff6ff;
+ color:#1d4ed8
+}
+.shareBtn{
+ background:#f1f5f9;
+ color:#334155
+}
+.jobActions .wide{
+ grid-column:1/-1
+}
+/* HOW */
+.steps{
+ background:var(--light)
+}
+.stepGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:25px
+}
+.step{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:var(--radius);
+ padding:30px;
+ text-align:center
+}
+.number{
+ width:55px;
+ height:55px;
+ display:grid;
+ place-items:center;
+ background:var(--blue);
+ color:white;
+ border-radius:50%;
+ margin:0 auto 18px;
+ font-weight:800;
+ font-size:20px
+}
+.step p{
+ color:var(--muted);
+ font-size:14px
+}
+/* CTA */
+.cta{padding:80px 0}
+.ctaBox{
+ background:linear-gradient(135deg,#0f172a,#1e3a8a);
+ color:white;
+ border-radius:28px;
+ padding:60px;
+ text-align:center
+}
+.ctaBox h2{
+ font-size:clamp(30px,4vw,46px);
+ margin-bottom:12px
+}
+.ctaBox p{
+ color:#cbd5e1;
+ max-width:600px;
+ margin:0 auto 25px
+}
+.ctaBox .btn{
+ background:white;
+ color:var(--blue)
+}
+/* FOOTER */
+footer{
+ background:#020617;
+ color:white;
+ padding:60px 0 25px
+}
+.footerGrid{
+ display:grid;
+ grid-template-columns:1.5fr 1fr 1fr 1fr;
+ gap:40px;
+ padding-bottom:40px
+}
+.footerBrand p{
+ color:#94a3b8;
+ max-width:340px;
+ margin-top:15px
+}
+footer h4{margin-bottom:15px}
+footer ul{list-style:none}
+footer li{margin:10px 0}
+footer li a{
+ color:#94a3b8;
+ font-size:14px
+}
+.copyright{
+ border-top:1px solid #1e293b;
+ padding-top:20px;
+ color:#64748b;
+ text-align:center;
+ font-size:13px
+}
+/* SEARCH RESULTS */
+#searchResults{
+ display:none;
+ background:#f8fafc;
+ padding:50px 0
+}
+.noResults{
+ text-align:center;
+ padding:45px;
+ background:white;
+ border:1px solid var(--border);
+ border-radius:18px
+}
+/* MODAL */
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(2,6,23,.68);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ z-index:3000
+}
+.modal.active{display:flex}
+.modalBox{
+ background:white;
+ width:min(520px,100%);
+ max-height:90vh;
+ overflow:auto;
+ border-radius:20px;
+ padding:30px;
+ position:relative
+}
+.close{
+ position:absolute;
+ right:18px;
+ top:13px;
+ border:0;
+ background:none;
+ font-size:27px
+}
+.modalBox h2{margin-bottom:8px}
+.modalBox p{
+ color:var(--muted);
+ margin-bottom:20px
+}
+.formGroup{margin-bottom:15px}
+.formGroup label{
+ display:block;
+ font-weight:700;
+ font-size:14px;
+ margin-bottom:6px
+}
+.formGroup input,
+.formGroup textarea{
+ width:100%;
+ padding:13px;
+ border:1px solid var(--border);
+ border-radius:10px;
+ outline:0
+}
+.formGroup textarea{
+ min-height:100px;
+ resize:vertical
+}
+/* RESPONSIVE */
+@media(max-width:900px){
+ .heroGrid{grid-template-columns:1fr}
+ .heroContent{text-align:center}
+ .heroText{
+  margin-left:auto;
+  margin-right:auto
+ }
+ .categoryGrid{
+  grid-template-columns:repeat(2,1fr)
+ }
+ .jobGrid{
+  grid-template-columns:repeat(2,1fr)
+ }
+ .stepGrid{
+  grid-template-columns:1fr
+ }
+ .footerGrid{
+  grid-template-columns:repeat(2,1fr)
+ }
+}
+@media(max-width:650px){
+ nav{min-height:65px}
+ .navLinks,
+ .navActions{
+  display:none
+ }
+ .menuBtn{display:block}
+ .mobileMenu.active{display:block}
+ .hero{
+  padding:55px 0
+ }
+ .hero h1{font-size:42px}
+ .searchBox{
+  grid-template-columns:1fr
+ }
+ .searchField{
+  border-right:0;
+  border-bottom:1px solid var(--border)
+ }
+ .searchBtn{min-height:48px}
+ .heroImage img{height:350px}
+ .floatCard.jobs{
+  left:5px;
+  bottom:20px
+ }
+ .floatCard.match{
+  right:5px;
+  top:20px
+ }
+ .statsGrid{
+  grid-template-columns:repeat(2,1fr)
+ }
+ .categoryGrid,
+ .jobGrid{
+  grid-template-columns:1fr
+ }
+ section{padding:65px 0}
+ .ctaBox{
+  padding:40px 20px
+ }
+ .footerGrid{
+  grid-template-columns:1fr
+ }
+ .jobActions{
+  grid-template-columns:1fr 1fr
+ }
+}
+</style>
 </head>
 <body>
-  <!-- ================= HEADER ================= -->
-  <header>
-    <div class="container">
-      <nav>
-        <a href="#" class="logo">
-          <span class="logo-icon">J</span>
-          Job<span>Match</span>
-        </a>
-        <div class="nav-links">
-          <a href="#jobs">Find Jobs</a>
-          <a href="#categories">Categories</a>
-          <a href="#how">How It Works</a>
-          <a href="#about">About</a>
-        </div>
-        <div class="nav-actions">
-          <button class="btn btn-outline" onclick="openModal('login')">
-            Log In
-          </button>
-          <button class="btn btn-primary" onclick="openModal('signup')">
-            Sign Up
-          </button>
-        </div>
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-      </nav>
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="#jobs" onclick="toggleMenu()">Find Jobs</a>
-        <a href="#categories" onclick="toggleMenu()">Categories</a>
-        <a href="#how" onclick="toggleMenu()">How It Works</a>
-        <a href="#about" onclick="toggleMenu()">About</a>
-        <button
-          class="btn btn-primary"
-          style="width:100%;margin-top:10px"
-          onclick="openModal('signup')"
-        >
-          Create Account
-        </button>
-      </div>
-    </div>
-  </header>
-  <!-- ================= HERO ================= -->
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <div class="badge">
-            ✨ Smart job search made simple
-          </div>
-          <h1>
-            Find the job that
-            <span>matches you.</span>
-          </h1>
-          <p class="hero-text">
-            Search thousands of opportunities, discover companies,
-            and find your next career opportunity with JobMatch.
-          </p>
-          <form class="search-box" id="searchForm">
-            <div class="search-field">
-              <span>🔎</span>
-              <input
-                id="keyword"
-                type="text"
-                placeholder="Job title or keyword"
-              />
-            </div>
-            <div class="search-field">
-              <span>📍</span>
-              <input
-                id="location"
-                type="text"
-                placeholder="Location"
-              />
-            </div>
-            <button class="search-btn" type="submit">
-              Search Jobs
-            </button>
-          </form>
-          <p class="popular">
-            <strong>Popular:</strong>
-            Software Developer · Marketing · Design · Accounting
-          </p>
-        </div>
-        <!-- PROFESSIONAL JOB SEARCH IMAGE -->
-        <div class="hero-visual">
-          <div class="hero-image-card">
-            <img
-              src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85"
-              alt="Professional person searching for jobs on a computer"
-            />
-          </div>
-          <div class="floating-card match">
-            <div class="float-icon">🎯</div>
-            <div>
-              <strong>92% Match</strong>
-              <small>Job opportunity</small>
-            </div>
-          </div>
-          <div class="floating-card jobs">
-            <div class="float-icon">💼</div>
-            <div>
-              <strong>12,500+</strong>
-              <small>Jobs available</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ================= STATS ================= -->
-    <section class="stats">
-      <div class="container stats-grid">
-        <div class="stat">
-          <h3>12K+</h3>
-          <p>Active Jobs</p>
-        </div>
-        <div class="stat">
-          <h3>5K+</h3>
-          <p>Companies</p>
-        </div>
-        <div class="stat">
-          <h3>30K+</h3>
-          <p>Job Seekers</p>
-        </div>
-        <div class="stat">
-          <h3>85%</h3>
-          <p>Successful Matches</p>
-        </div>
-      </div>
-    </section>
-    <!-- ================= CATEGORIES ================= -->
-    <section class="categories" id="categories">
-      <div class="container">
-        <div class="section-heading">
-          <div class="mini">Explore opportunities</div>
-          <h2>Find jobs by category</h2>
-          <p>
-            Explore opportunities across different industries
-            and professional fields.
-          </p>
-        </div>
-        <div class="category-grid">
-          <div class="category">
-            <div class="category-icon">💻</div>
-            <h3>Technology</h3>
-            <p>Software, IT, AI and engineering jobs.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">📣</div>
-            <h3>Marketing</h3>
-            <p>Digital marketing, sales and communication.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">🎨</div>
-            <h3>Design</h3>
-            <p>UI/UX, graphics and creative opportunities.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">📊</div>
-            <h3>Finance</h3>
-            <p>Accounting, banking and financial roles.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">🏥</div>
-            <h3>Healthcare</h3>
-            <p>Medical and healthcare opportunities.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">⚖️</div>
-            <h3>Legal</h3>
-            <p>Legal, compliance and professional services.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">🏗️</div>
-            <h3>Engineering</h3>
-            <p>Construction, mechanical and civil jobs.</p>
-          </div>
-          <div class="category">
-            <div class="category-icon">🎓</div>
-            <h3>Education</h3>
-            <p>Teaching, training and academic jobs.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ================= SEARCH RESULTS ================= -->
-    <section id="searchResults">
-      <div class="container">
-        <div class="results-title">
-          <h2 id="resultHeading">Search Results</h2>
-          <p id="resultDescription"></p>
-        </div>
-        <div class="job-grid" id="resultsGrid"></div>
-      </div>
-    </section>
-    <!-- ================= FEATURED JOBS ================= -->
-    <section id="jobs">
-      <div class="container">
-        <div class="section-heading">
-          <div class="mini">Featured opportunities</div>
-          <h2>Latest job opportunities</h2>
-          <p>
-            Discover opportunities from different industries.
-          </p>
-        </div>
-        <div class="job-grid" id="jobGrid">
-          <!-- JOB 1 -->
-          <article
-            class="job-card"
-            data-title="Software Developer"
-            data-location="Remote"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                TC
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>Software Developer</h3>
-            <p class="company">
-              TechCore Solutions
-            </p>
-            <div class="job-meta">
-              <span class="tag">Remote</span>
-              <span class="tag">Full-time</span>
-              <span class="tag">Mid Level</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">$2,500–$4,000/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'Software Developer')">
-                Apply →
-              </a>
-            </div>
-          </article>
-          <!-- JOB 2 -->
-          <article
-            class="job-card"
-            data-title="Marketing Executive"
-            data-location="Kano"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                AM
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>Marketing Executive</h3>
-            <p class="company">
-              Africa Market Group
-            </p>
-            <div class="job-meta">
-              <span class="tag">Kano</span>
-              <span class="tag">Full-time</span>
-              <span class="tag">Marketing</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">₦250K–₦450K/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'Marketing Executive')">
-                Apply →
-              </a>
-            </div>
-          </article>
-          <!-- JOB 3 -->
-          <article
-            class="job-card"
-            data-title="UI UX Designer"
-            data-location="Lagos"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                DS
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>UI/UX Designer</h3>
-            <p class="company">
-              Design Studio Africa
-            </p>
-            <div class="job-meta">
-              <span class="tag">Lagos</span>
-              <span class="tag">Hybrid</span>
-              <span class="tag">Design</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">₦300K–₦500K/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'UI/UX Designer')">
-                Apply →
-              </a>
-            </div>
-          </article>
-          <!-- JOB 4 -->
-          <article
-            class="job-card"
-            data-title="Accountant"
-            data-location="Abuja"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                FA
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>Accountant</h3>
-            <p class="company">
-              Finance Africa
-            </p>
-            <div class="job-meta">
-              <span class="tag">Abuja</span>
-              <span class="tag">Full-time</span>
-              <span class="tag">Finance</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">₦280K–₦450K/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'Accountant')">
-                Apply →
-              </a>
-            </div>
-          </article>
-          <!-- JOB 5 -->
-          <article
-            class="job-card"
-            data-title="AI Engineer"
-            data-location="Remote"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                AI
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>AI Engineer</h3>
-            <p class="company">
-              Future Intelligence
-            </p>
-            <div class="job-meta">
-              <span class="tag">Remote</span>
-              <span class="tag">Full-time</span>
-              <span class="tag">AI</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">$3,000–$5,000/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'AI Engineer')">
-                Apply →
-              </a>
-            </div>
-          </article>
-          <!-- JOB 6 -->
-          <article
-            class="job-card"
-            data-title="Customer Support Specialist"
-            data-location="Kaduna"
-          >
-            <div class="job-top">
-              <div class="company-logo">
-                CS
-              </div>
-              <button class="save" onclick="saveJob(this)">
-                ♡
-              </button>
-            </div>
-            <h3>Customer Support Specialist</h3>
-            <p class="company">
-              Connect Services
-            </p>
-            <div class="job-meta">
-              <span class="tag">Kaduna</span>
-              <span class="tag">Hybrid</span>
-              <span class="tag">Support</span>
-            </div>
-            <div class="job-bottom">
-              <span class="salary">₦180K–₦300K/mo</span>
-              <a href="#" class="apply" onclick="openApply(event,'Customer Support Specialist')">
-                Apply →
-              </a>
-            </div>
-          </article>
-        </div>
-        <div style="text-align:center;margin-top:35px;">
-          <button class="btn btn-outline" onclick="showAllJobs()">
-            View More Jobs →
-          </button>
-        </div>
-      </div>
-    </section>
-    <!-- ================= HOW IT WORKS ================= -->
-    <section class="steps" id="how">
-      <div class="container">
-        <div class="section-heading">
-          <div class="mini">Simple process</div>
-          <h2>How JobMatch works</h2>
-          <p>
-            Find your next opportunity in a few simple steps.
-          </p>
-        </div>
-        <div class="step-grid">
-          <div class="step">
-            <div class="step-number">1</div>
-            <h3>Create your profile</h3>
-            <p>
-              Tell us about your skills, experience and career interests.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <h3>Search for jobs</h3>
-            <p>
-              Search opportunities using keywords, categories and locations.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <h3>Apply & connect</h3>
-            <p>
-              Apply for suitable positions and connect with employers.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ================= ABOUT ================= -->
-    <section id="about">
-      <div class="container">
-        <div class="section-heading">
-          <div class="mini">About JobMatch</div>
-          <h2>Connecting talent with opportunity</h2>
-          <p>
-            JobMatch is designed to make the job search experience
-            easier, faster and more accessible for job seekers and
-            employers.
-          </p>
-        </div>
-      </div>
-    </section>
-    <!-- ================= CTA ================= -->
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Ready to find your next opportunity?</h2>
-          <p>
-            Create your JobMatch profile and start discovering
-            opportunities that match your skills.
-          </p>
-          <button
-            class="btn"
-            onclick="openModal('signup')"
-          >
-            Create Free Account →
-          </button>
-        </div>
-      </div>
-    </section>
-  </main>
-  <!-- ================= FOOTER ================= -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo" style="color:white">
-            <span class="logo-icon">J</span>
-            Job<span>Match</span>
-          </a>
-          <p>
-            A modern platform helping people discover jobs,
-            build careers and connect with opportunities.
-          </p>
-        </div>
-        <div>
-          <h4>For Job Seekers</h4>
-          <ul>
-            <li><a href="#jobs">Find Jobs</a></li>
-            <li><a href="#categories">Job Categories</a></li>
-            <li><a href="#how">How It Works</a></li>
-            <li><a href="#" onclick="openModal('signup')">Create Account</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>For Employers</h4>
-          <ul>
-            <li><a href="#">Post a Job</a></li>
-            <li><a href="#">Find Talent</a></li>
-            <li><a href="#">Employer Dashboard</a></li>
-            <li><a href="#">Pricing</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="copyright">
-        © <span id="year"></span> JobMatch. All rights reserved.
-      </div>
-    </div>
-  </footer>
-  <!-- ================= LOGIN / SIGNUP MODAL ================= -->
-  <div class="modal" id="authModal">
-    <div class="modal-box">
-      <button class="close" onclick="closeModal()">×</button>
-      <h2 id="modalTitle">Create your account</h2>
-      <p id="modalDescription">
-        Join JobMatch and start discovering opportunities.
-      </p>
-      <form onsubmit="submitAuth(event)">
-        <div class="form-group" id="nameGroup">
-          <label>Full Name</label>
-          <input
-            type="text"
-            placeholder="Enter your full name"
-          />
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Create a password"
-            required
-          />
-        </div>
-        <button
-          class="btn btn-primary"
-          style="width:100%"
-        >
-          Continue
-        </button>
-      </form>
-    </div>
-  </div>
-  <!-- ================= APPLY MODAL ================= -->
-  <div class="modal" id="applyModal">
-    <div class="modal-box">
-      <button class="close" onclick="closeApply()">×</button>
-      <h2>Apply for job</h2>
-      <p>
-        You are applying for:
-        <strong id="selectedJob"></strong>
-      </p>
-      <form onsubmit="submitApplication(event)">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input
-            type="text"
-            placeholder="Your full name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Your email"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label>CV / Resume Link</label>
-          <input
-            type="url"
-            placeholder="https://..."
-          />
-        </div>
-        <button class="btn btn-primary" style="width:100%">
-          Submit Application
-        </button>
-      </form>
-    </div>
-  </div>
-  <!-- ================= JAVASCRIPT ================= -->
-  <script>
-    // Current year
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-    // Mobile menu
-    function toggleMenu() {
-      const menu = document.getElementById("mobileMenu");
-      menu.classList.toggle("active");
-    }
-    // Auth modal
-    function openModal(type) {
-      const modal = document.getElementById("authModal");
-      const title = document.getElementById("modalTitle");
-      const description =
-        document.getElementById("modalDescription");
-      const nameGroup =
-        document.getElementById("nameGroup");
-      if (type === "login") {
-        title.textContent = "Welcome back";
-        description.textContent =
-          "Log in to continue your JobMatch journey.";
-        nameGroup.style.display = "none";
-      } else {
-        title.textContent =
-          "Create your JobMatch account";
-        description.textContent =
-          "Join JobMatch and start discovering opportunities.";
-        nameGroup.style.display = "block";
-      }
-      modal.classList.add("active");
-    }
-    function closeModal() {
-      document
-        .getElementById("authModal")
-        .classList.remove("active");
-    }
-    function submitAuth(event) {
-      event.preventDefault();
-      alert(
-        "Account system is ready to connect to your backend/Supabase."
-      );
-      closeModal();
-    }
-    // Job application
-    function openApply(event, jobName) {
-      event.preventDefault();
-      document.getElementById("selectedJob").textContent =
-        jobName;
-      document
-        .getElementById("applyModal")
-        .classList.add("active");
-    }
-    function closeApply() {
-      document
-        .getElementById("applyModal")
-        .classList.remove("active");
-    }
-    function submitApplication(event) {
-      event.preventDefault();
-      alert(
-        "Application submitted successfully. Backend connection can be added next."
-      );
-      closeApply();
-    }
-    // Save jobs
-    function saveJob(button) {
-      if (button.textContent.trim() === "♡") {
-        button.textContent = "♥";
-        button.style.color = "#ef4444";
-      } else {
-        button.textContent = "♡";
-        button.style.color = "";
-      }
-    }
-    // Job search
-    document
-      .getElementById("searchForm")
-      .addEventListener("submit", function(event) {
-        event.preventDefault();
-        const keyword =
-          document
-            .getElementById("keyword")
-            .value
-            .toLowerCase()
-            .trim();
-        const location =
-          document
-            .getElementById("location")
-            .value
-            .toLowerCase()
-            .trim();
-        const jobs =
-          Array.from(
-            document.querySelectorAll("#jobGrid .job-card")
-          );
-        const results =
-          jobs.filter(job => {
-            const title =
-              job.dataset.title.toLowerCase();
-            const jobLocation =
-              job.dataset.location.toLowerCase();
-            const matchesKeyword =
-              !keyword ||
-              title.includes(keyword) ||
-              job.textContent.toLowerCase().includes(keyword);
-            const matchesLocation =
-              !location ||
-              jobLocation.includes(location) ||
-              job.textContent.toLowerCase().includes(location);
-            return matchesKeyword && matchesLocation;
-          });
-        const resultsSection =
-          document.getElementById("searchResults");
-        const resultsGrid =
-          document.getElementById("resultsGrid");
-        const heading =
-          document.getElementById("resultHeading");
-        const description =
-          document.getElementById("resultDescription");
-        resultsGrid.innerHTML = "";
-        resultsSection.style.display = "block";
-        heading.textContent =
-          results.length +
-          " job" +
-          (results.length === 1 ? "" : "s") +
-          " found";
-        description.textContent =
-          keyword || location
-            ? "Showing opportunities matching your search."
-            : "Showing available opportunities.";
-        if (results.length === 0) {
-          resultsGrid.innerHTML = `
-            <div class="no-results" style="grid-column:1/-1">
-              <div style="font-size:40px;margin-bottom:10px">🔎</div>
-              <h3>No jobs found</h3>
-              <p>
-                Try another job title, keyword or location.
-              </p>
-            </div>
-          `;
-        } else {
-          results.forEach(job => {
-            const copy = job.cloneNode(true);
-            resultsGrid.appendChild(copy);
-          });
-        }
-        resultsSection.scrollIntoView({
-          behavior: "smooth"
-        });
-      });
-    // View more
-    function showAllJobs() {
-      alert(
-        "More jobs can be connected to your database/API so JobMatch can display live vacancies."
-      );
-    }
-    // Close modal by clicking outside
-    window.addEventListener("click", function(event) {
-      const authModal =
-        document.getElementById("authModal");
-      const applyModal =
-        document.getElementById("applyModal");
-      if (event.target === authModal) {
-        closeModal();
-      }
-      if (event.target === applyModal) {
-        closeApply();
-      }
-    });
-  </script>
+<!-- NAVBAR -->
+<header>
+<div class="container">
+<nav>
+<a href="#" class="logo">
+<span class="logoIcon">J</span>
+Job<span>Match</span>
+</a>
+<div class="navLinks">
+<a href="#jobs">Find Jobs</a>
+<a href="#categories">Categories</a>
+<a href="#how">How It Works</a>
+<a href="#about">About</a>
+</div>
+<div class="navActions">
+<button class="btn outline" onclick="openAuth('login')">
+Log In
+</button>
+<button class="btn primary" onclick="openAuth('signup')">
+Sign Up
+</button>
+</div>
+<button class="menuBtn" onclick="toggleMenu()">☰</button>
+</nav>
+<div class="mobileMenu" id="mobileMenu">
+<a href="#jobs">Find Jobs</a>
+<a href="#categories">Categories</a>
+<a href="#how">How It Works</a>
+<a href="#about">About</a>
+<button class="btn primary" style="width:100%;margin-top:10px"
+onclick="openAuth('signup')">
+Create Account
+</button>
+</div>
+</div>
+</header>
+<!-- HERO -->
+<section class="hero">
+<div class="container heroGrid">
+<div class="heroContent">
+<div class="badge">
+🔎 Find your next opportunity
+</div>
+<h1>
+Find the job that
+<span>matches you.</span>
+</h1>
+<p class="heroText">
+Discover job opportunities, search by category and location,
+and connect directly with employers.
+</p>
+<form class="searchBox" id="searchForm">
+<div class="searchField">
+<span>🔎</span>
+<input id="keyword"
+placeholder="Job title or keyword">
+</div>
+<div class="searchField">
+<span>📍</span>
+<input id="location"
+placeholder="Location">
+</div>
+<button class="searchBtn">
+Search Jobs
+</button>
+</form>
+<p class="popular">
+<strong>Popular:</strong>
+Technology · Marketing · Design · Education
+</p>
+</div>
+<div class="heroVisual">
+<div class="heroImage">
+<img
+src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85"
+alt="Person searching for a job using a computer"
+>
+</div>
+<div class="floatCard match">
+<div class="floatIcon">🎯</div>
+<div>
+<strong>Smart Match</strong>
+<small>Find suitable jobs</small>
+</div>
+</div>
+<div class="floatCard jobs">
+<div class="floatIcon">💼</div>
+<div>
+<strong id="jobCount">0</strong>
+<small>Jobs Available</small>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- LIVE STATS -->
+<section class="stats">
+<div class="container statsGrid">
+<div class="stat" onclick="goJobs()">
+<h3 id="statJobs">0</h3>
+<p>Jobs Available</p>
+</div>
+<div class="stat">
+<h3 id="statCategories">0</h3>
+<p>Categories</p>
+</div>
+<div class="stat">
+<h3>Direct</h3>
+<p>Employer Contact</p>
+</div>
+<div class="stat">
+<h3>24/7</h3>
+<p>Job Search</p>
+</div>
+</div>
+</section>
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+<div class="container">
+<div class="heading">
+<div class="mini">Explore opportunities</div>
+<h2>Find jobs by category</h2>
+<p>
+Search opportunities based on the actual field of work.
+</p>
+</div>
+<div class="categoryGrid">
+<div class="category" onclick="categorySearch('Technology')">
+<div class="categoryIcon">💻</div>
+<h3>Technology</h3>
+<p>Software, IT, AI and digital jobs.</p>
+</div>
+<div class="category" onclick="categorySearch('Marketing')">
+<div class="categoryIcon">📣</div>
+<h3>Marketing</h3>
+<p>Marketing, sales and communication.</p>
+</div>
+<div class="category" onclick="categorySearch('Design')">
+<div class="categoryIcon">🎨</div>
+<h3>Design</h3>
+<p>UI/UX, graphics and creative work.</p>
+</div>
+<div class="category" onclick="categorySearch('Finance')">
+<div class="categoryIcon">📊</div>
+<h3>Finance</h3>
+<p>Accounting and financial opportunities.</p>
+</div>
+<div class="category" onclick="categorySearch('Healthcare')">
+<div class="categoryIcon">🏥</div>
+<h3>Healthcare</h3>
+<p>Medical and healthcare jobs.</p>
+</div>
+<div class="category" onclick="categorySearch('Engineering')">
+<div class="categoryIcon">🏗️</div>
+<h3>Engineering</h3>
+<p>Engineering and construction jobs.</p>
+</div>
+<div class="category" onclick="categorySearch('Education')">
+<div class="categoryIcon">🎓</div>
+<h3>Education</h3>
+<p>Teaching and academic opportunities.</p>
+</div>
+<div class="category" onclick="categorySearch('Legal')">
+<div class="categoryIcon">⚖️</div>
+<h3>Legal</h3>
+<p>Legal and compliance roles.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SEARCH RESULTS -->
+<section id="searchResults">
+<div class="container">
+<div class="heading" style="margin-bottom:25px">
+<div class="mini">Search</div>
+<h2 id="resultTitle">Job Results</h2>
+<p id="resultText"></p>
+</div>
+<div class="jobGrid" id="resultsGrid"></div>
+</div>
+</section>
+<!-- JOBS -->
+<section id="jobs">
+<div class="container">
+<div class="heading">
+<div class="mini">Opportunities</div>
+<h2>Available jobs</h2>
+<p>
+Browse jobs and contact the person responsible for the opportunity.
+</p>
+</div>
+<div class="jobGrid" id="jobGrid"></div>
+</div>
+</section>
+<!-- HOW -->
+<section class="steps" id="how">
+<div class="container">
+<div class="heading">
+<div class="mini">Simple process</div>
+<h2>How JobMatch works</h2>
+<p>
+Find an opportunity and contact the responsible person directly.
+</p>
+</div>
+<div class="stepGrid">
+<div class="step">
+<div class="number">1</div>
+<h3>Search</h3>
+<p>
+Search for a job using its title, category or location.
+</p>
+</div>
+<div class="step">
+<div class="number">2</div>
+<h3>View details</h3>
+<p>
+See the job category, type, location and employer information.
+</p>
+</div>
+<div class="step">
+<div class="number">3</div>
+<h3>Apply & Contact</h3>
+<p>
+Apply and contact the responsible person directly by WhatsApp or phone.
+</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT -->
+<section id="about">
+<div class="container">
+<div class="heading">
+<div class="mini">About JobMatch</div>
+<h2>Connecting people with opportunities</h2>
+<p>
+JobMatch is designed to make job discovery easier by helping
+job seekers find opportunities and contact employers directly.
+</p>
+</div>
+</div>
+</section>
+<!-- CTA -->
+<section class="cta">
+<div class="container">
+<div class="ctaBox">
+<h2>Ready to find your next opportunity?</h2>
+<p>
+Search jobs, explore categories and connect directly with employers.
+</p>
+<button class="btn" onclick="goJobs()">
+Find Jobs →
+</button>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer>
+<div class="container">
+<div class="footerGrid">
+<div class="footerBrand">
+<a href="#" class="logo" style="color:white">
+<span class="logoIcon">J</span>
+Job<span>Match</span>
+</a>
+<p>
+A modern platform for discovering jobs and connecting
+directly with employers.
+</p>
+</div>
+<div>
+<h4>Job Seekers</h4>
+<ul>
+<li><a href="#jobs">Find Jobs</a></li>
+<li><a href="#categories">Categories</a></li>
+<li><a href="#how">How It Works</a></li>
+</ul>
+</div>
+<div>
+<h4>Employers</h4>
+<ul>
+<li><a href="#">Post a Job</a></li>
+<li><a href="#">Find Talent</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#">Privacy</a></li>
+<li><a href="#">Terms</a></li>
+</ul>
+</div>
+</div>
+<div class="copyright">
+© <span id="year"></span> JobMatch. All rights reserved.
+</div>
+</div>
+</footer>
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+<div class="modalBox">
+<button class="close" onclick="closeAuth()">×</button>
+<h2 id="authTitle">Create Account</h2>
+<p id="authText">
+Create your JobMatch account.
+</p>
+<form onsubmit="authSubmit(event)">
+<div class="formGroup" id="nameField">
+<label>Full Name</label>
+<input required placeholder="Your full name">
+</div>
+<div class="formGroup">
+<label>Email</label>
+<input type="email" required placeholder="Your email">
+</div>
+<div class="formGroup">
+<label>Phone Number</label>
+<input type="tel" placeholder="Your phone number">
+</div>
+<div class="formGroup">
+<label>Password</label>
+<input type="password" required placeholder="Password">
+</div>
+<button class="btn primary" style="width:100%">
+Continue
+</button>
+</form>
+</div>
+</div>
+<!-- APPLY MODAL -->
+<div class="modal" id="applyModal">
+<div class="modalBox">
+<button class="close" onclick="closeApply()">×</button>
+<h2>Apply for this job</h2>
+<p>
+Application for:
+<strong id="applyJobName"></strong>
+</p>
+<div class="formGroup">
+<label>Your Full Name</label>
+<input id="appName"
+placeholder="Enter your name"
+required>
+</div>
+<div class="formGroup">
+<label>Phone Number</label>
+<input id="appPhone"
+type="tel"
+placeholder="Enter your phone number"
+required>
+</div>
+<div class="formGroup">
+<label>Email</label>
+<input id="appEmail"
+type="email"
+placeholder="Enter your email">
+</div>
+<div class="formGroup">
+<label>Message</label>
+<textarea id="appMessage"
+placeholder="Write a short message"></textarea>
+</div>
+<button class="btn primary"
+style="width:100%"
+onclick="sendApplication()">
+Apply & Contact
+</button>
+<p style="font-size:12px;margin-top:12px">
+Your application will open WhatsApp so you can contact
+the person responsible for the job.
+</p>
+</div>
+</div>
+<script>
+/* ================= SETTINGS ================= */
+/*
+  JOBMATCH CONTACT NUMBER
+  Change this ONE number whenever you want.
+*/
+const CONTACT_NUMBER = "2347048718481";
+/*
+  JOB DATABASE
+  Replace/add real jobs here.
+  Salary is intentionally NOT included.
+*/
+const jobs = [
+{
+ title:"Software Developer",
+ company:"TechCore Solutions",
+ category:"Technology",
+ type:"Full-time",
+ location:"Remote",
+ logo:"TC"
+},
+{
+ title:"Marketing Executive",
+ company:"Africa Market Group",
+ category:"Marketing",
+ type:"Full-time",
+ location:"Kano",
+ logo:"AM"
+},
+{
+ title:"UI/UX Designer",
+ company:"Design Studio Africa",
+ category:"Design",
+ type:"Hybrid",
+ location:"Lagos",
+ logo:"DS"
+},
+{
+ title:"Accountant",
+ company:"Finance Africa",
+ category:"Finance",
+ type:"Full-time",
+ location:"Abuja",
+ logo:"FA"
+},
+{
+ title:"AI Engineer",
+ company:"Future Intelligence",
+ category:"Technology",
+ type:"Full-time",
+ location:"Remote",
+ logo:"AI"
+},
+{
+ title:"Customer Support Specialist",
+ company:"Connect Services",
+ category:"Customer Support",
+ type:"Hybrid",
+ location:"Kaduna",
+ logo:"CS"
+},
+{
+ title:"Civil Engineer",
+ company:"Build Africa",
+ category:"Engineering",
+ type:"Full-time",
+ location:"Kano",
+ logo:"BA"
+},
+{
+ title:"Teacher",
+ company:"Knowledge Academy",
+ category:"Education",
+ type:"Full-time",
+ location:"Kano",
+ logo:"KA"
+}
+];
+/* ================= INITIALIZE ================= */
+document.getElementById("year").textContent =
+new Date().getFullYear();
+document.getElementById("jobCount").textContent =
+jobs.length;
+document.getElementById("statJobs").textContent =
+jobs.length;
+const categories =
+[...new Set(jobs.map(j => j.category))];
+document.getElementById("statCategories").textContent =
+categories.length;
+/* ================= JOB CARD ================= */
+function createJobCard(job){
+const encodedJob =
+encodeURIComponent(job.title);
+return `
+<article class="jobCard">
+<div class="jobTop">
+<div class="companyLogo">
+${job.logo}
+</div>
+<button
+class="saveBtn"
+onclick="saveJob(this)"
+title="Save job">
+♡
+</button>
+</div>
+<h3>${job.title}</h3>
+<p class="company">
+${job.company}
+</p>
+<div class="tags">
+<span class="tag">
+💼 ${job.category}
+</span>
+<span class="tag">
+🕐 ${job.type}
+</span>
+<span class="tag">
+📍 ${job.location}
+</span>
+</div>
+<div class="jobActions">
+<button
+class="applyBtn"
+onclick="openApply('${encodedJob}')">
+Apply
+</button>
+<button
+class="whatsappBtn"
+onclick="whatsapp('${encodedJob}')">
+💬 WhatsApp
+</button>
+<button
+class="callBtn"
+onclick="callEmployer()">
+📞 Call
+</button>
+<button
+class="shareBtn"
+onclick='shareJob(${JSON.stringify(job)})'>
+↗ Share
+</button>
+</div>
+</article>
+`;
+}
+/* ================= RENDER JOBS ================= */
+function renderJobs(list=jobs){
+const grid =
+document.getElementById("jobGrid");
+grid.innerHTML =
+list.map(createJobCard).join("");
+}
+renderJobs();
+/* ================= SEARCH ================= */
+document
+.getElementById("searchForm")
+.addEventListener("submit",function(e){
+e.preventDefault();
+const keyword =
+document
+.getElementById("keyword")
+.value
+.toLowerCase()
+.trim();
+const location =
+document
+.getElementById("location")
+.value
+.toLowerCase()
+.trim();
+const results =
+jobs.filter(job => {
+const all =
+`${job.title}
+${job.company}
+${job.category}
+${job.type}
+${job.location}`
+.toLowerCase();
+return (
+(!keyword || all.includes(keyword)) &&
+(!location || job.location.toLowerCase().includes(location))
+);
+});
+showResults(results,keyword,location);
+});
+/* ================= CATEGORY SEARCH ================= */
+function categorySearch(category){
+document
+.getElementById("keyword")
+.value=category;
+document
+.getElementById("location")
+.value="";
+const results =
+jobs.filter(job =>
+job.category.toLowerCase() ===
+category.toLowerCase()
+);
+showResults(results,category,"");
+}
+/* ================= RESULTS ================= */
+function showResults(results,keyword,location){
+const section =
+document.getElementById("searchResults");
+const grid =
+document.getElementById("resultsGrid");
+const title =
+document.getElementById("resultTitle");
+const text =
+document.getElementById("resultText");
+section.style.display="block";
+title.textContent =
+`${results.length} Job${results.length===1?"":"s"} Found`;
+text.textContent =
+keyword || location
+? "Showing jobs that match your search."
+: "Available opportunities.";
+if(!results.length){
+grid.innerHTML=`
+<div class="noResults" style="grid-column:1/-1">
+<div style="font-size:42px">🔎</div>
+<h3>No jobs found</h3>
+<p>
+Try another keyword, category or location.
+</p>
+</div>
+`;
+}else{
+grid.innerHTML =
+results.map(createJobCard).join("");
+}
+section.scrollIntoView({
+behavior:"smooth"
+});
+}
+/* ================= GO JOBS ================= */
+function goJobs(){
+document
+.getElementById("jobs")
+.scrollIntoView({
+behavior:"smooth"
+});
+}
+/* ================= SAVE ================= */
+function saveJob(button){
+if(button.textContent.trim()==="♡"){
+button.textContent="♥";
+button.style.color="#ef4444";
+}else{
+button.textContent="♡";
+button.style.color="";
+}
+}
+/* ================= APPLY ================= */
+function openApply(encodedJob){
+const job =
+decodeURIComponent(encodedJob);
+document
+.getElementById("applyJobName")
+.textContent=job;
+document
+.getElementById("applyModal")
+.classList.add("active");
+}
+/* ================= SEND APPLICATION ================= */
+function sendApplication(){
+const name =
+document.getElementById("appName").value.trim();
+const phone =
+document.getElementById("appPhone").value.trim();
+const email =
+document.getElementById("appEmail").value.trim();
+const message =
+document.getElementById("appMessage").value.trim();
+const job =
+document.getElementById("applyJobName").textContent;
+if(!name || !phone){
+alert("Please enter your name and phone number.");
+return;
+}
+const text =
+`Hello JobMatch,
+I want to apply for the following job:
+Job: ${job}
+Name: ${name}
+Phone: ${phone}
+Email: ${email || "Not provided"}
+Message:
+${message || "I am interested in this opportunity."}
+`;
+const url =
+`https://wa.me/${CONTACT_NUMBER}?text=${encodeURIComponent(text)}`;
+window.open(url,"_blank");
+closeApply();
+}
+/* ================= WHATSAPP ================= */
+function whatsapp(encodedJob){
+const job =
+decodeURIComponent(encodedJob);
+const text =
+`Hello, I am interested in the "${job}" opportunity I found on JobMatch. Please provide me with more information about the application.`;
+const url =
+`https://wa.me/${CONTACT_NUMBER}?text=${encodeURIComponent(text)}`;
+window.open(url,"_blank");
+}
+/* ================= CALL ================= */
+function callEmployer(){
+window.location.href =
+`tel:+${CONTACT_NUMBER}`;
+}
+/* ================= SHARE ================= */
+async function shareJob(job){
+const shareText =
+`🔎 JOBMATCH — FIND A JOB
+💼 ${job.title}
+🏢 ${job.company}
+🏷️ Category: ${job.category}
+🕐 Type: ${job.type}
+📍 Location: ${job.location}
+Find this opportunity on JobMatch.
+`;
+const shareData={
+title:`${job.title} — JobMatch`,
+text:shareText,
+url:window.location.href
+};
+try{
+if(navigator.share){
+await navigator.share(shareData);
+}else{
+await navigator.clipboard.writeText(
+shareText+"\n"+window.location.href
+);
+alert(
+"Job details copied. You can now paste and share them."
+);
+}
+}catch(error){
+console.log("Share cancelled");
+}
+}
+/* ================= AUTH ================= */
+function openAuth(type){
+const modal =
+document.getElementById("authModal");
+const title =
+document.getElementById("authTitle");
+const text =
+document.getElementById("authText");
+const name =
+document.getElementById("nameField");
+if(type==="login"){
+title.textContent="Welcome Back";
+text.textContent=
+"Log in to your JobMatch account.";
+name.style.display="none";
+}else{
+title.textContent="Create Your Account";
+text.textContent=
+"Join JobMatch and discover opportunities.";
+name.style.display="block";
+}
+modal.classList.add("active");
+}
+function closeAuth(){
+document
+.getElementById("authModal")
+.classList.remove("active");
+}
+function authSubmit(e){
+e.preventDefault();
+alert(
+"Account system is ready to connect to the JobMatch backend."
+);
+closeAuth();
+}
+/* ================= CLOSE APPLY ================= */
+function closeApply(){
+document
+.getElementById("applyModal")
+.classList.remove("active");
+}
+/* ================= MOBILE ================= */
+function toggleMenu(){
+document
+.getElementById("mobileMenu")
+.classList.toggle("active");
+}
+/* ================= CLOSE MODALS ================= */
+window.addEventListener("click",function(e){
+const auth =
+document.getElementById("authModal");
+const apply =
+document.getElementById("applyModal");
+if(e.target===auth){
+closeAuth();
+}
+if(e.target===apply){
+closeApply();
+}
+});
+</script>
 </body>
 </html>
